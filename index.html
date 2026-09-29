@@ -1,0 +1,1344 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYAN DEY — Model | Actor | Creator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #F5F0EB;
+            --cream-light: #FAF7F4;
+            --black: #0A0A0A;
+            --charcoal: #1A1A1A;
+            --gray: #6B6B6B;
+            --gray-light: #A0A0A0;
+            --white: #FFFFFF;
+            --accent: #C9B99A;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--cream-light);
+            color: var(--black);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 1.5px solid var(--black);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.15s ease, opacity 0.15s ease;
+            mix-blend-mode: difference;
+            display: none;
+        }
+
+        @media (min-width: 1024px) {
+            .cursor { display: block; }
+        }
+
+        .cursor.hover {
+            transform: scale(2.5);
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 24px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        nav.scrolled {
+            background: rgba(250, 247, 244, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 16px 48px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--black);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--charcoal);
+            text-decoration: none;
+            position: relative;
+            padding: 4px 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--black);
+            transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--black);
+        }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 8px;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 1.5px;
+            background: var(--black);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform-origin: center;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--cream-light);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 36px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .mobile-menu a {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 400;
+            color: var(--black);
+            text-decoration: none;
+            letter-spacing: 3px;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            opacity: 0.5;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: var(--cream-light);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 48px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            height: 100%;
+        }
+
+        .hero-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 24px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1s 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .hero-name {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(48px, 7vw, 96px);
+            font-weight: 400;
+            line-height: 1.05;
+            letter-spacing: -1px;
+            color: var(--black);
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1.2s 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .hero-name span {
+            display: block;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .hero-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 48px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1s 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--black);
+            text-decoration: none;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--black);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1s 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            transition: gap 0.4s ease, opacity 0.3s ease;
+            cursor: pointer;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+
+        .hero-cta:hover {
+            gap: 24px;
+        }
+
+        .hero-cta svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.4s ease;
+        }
+
+        .hero-cta:hover svg {
+            transform: translateX(4px);
+        }
+
+        .hero-image-wrapper {
+            position: relative;
+            height: 85vh;
+            max-height: 800px;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 1.5s 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .hero-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            transition: transform 8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .hero-image-wrapper:hover img {
+            transform: scale(1.03);
+        }
+
+        .hero-image-frame {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100%;
+            height: 100%;
+            border: 1px solid rgba(0,0,0,0.08);
+            pointer-events: none;
+        }
+
+        .hero-scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            animation: fadeUp 1s 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .hero-scroll-indicator span {
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gray-light);
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: var(--gray-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--black);
+            animation: scrollDown 2s infinite;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 120px 48px;
+        }
+
+        .section-container {
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            margin-bottom: 80px;
+        }
+
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(36px, 5vw, 64px);
+            font-weight: 400;
+            line-height: 1.15;
+            color: var(--black);
+        }
+
+        .section-title em {
+            font-style: italic;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--white);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 3/4;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 6s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.02);
+        }
+
+        .about-content {
+            padding: 40px 0;
+        }
+
+        .about-content .section-label {
+            margin-bottom: 24px;
+        }
+
+        .about-content .section-title {
+            margin-bottom: 32px;
+            font-size: clamp(28px, 3.5vw, 48px);
+        }
+
+        .about-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            line-height: 1.7;
+            color: var(--charcoal);
+            margin-bottom: 32px;
+            font-weight: 400;
+        }
+
+        .about-details {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .about-detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .about-detail-label {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gray);
+        }
+
+        .about-detail-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            color: var(--black);
+        }
+
+        .about-instagram {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 32px;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--black);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .about-instagram:hover {
+            opacity: 0.6;
+        }
+
+        .about-instagram svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            background: var(--cream-light);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 3/4;
+        }
+
+        .portfolio-item:nth-child(1) {
+            grid-row: span 1;
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 32px;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        .portfolio-overlay-text {
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .lightbox img {
+            max-width: 85vw;
+            max-height: 90vh;
+            object-fit: contain;
+            transform: scale(0.95);
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .lightbox.active img {
+            transform: scale(1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 32px;
+            right: 32px;
+            width: 48px;
+            height: 48px;
+            background: none;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.6);
+        }
+
+        .lightbox-close svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            background: none;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.6);
+        }
+
+        .lightbox-nav svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
+        }
+
+        .lightbox-prev { left: 32px; }
+        .lightbox-next { right: 32px; }
+
+        /* Stats / Numbers Section */
+        .stats {
+            background: var(--black);
+            padding: 80px 48px;
+        }
+
+        .stats-grid {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 24px;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            font-weight: 400;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gray-light);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--white);
+            text-align: center;
+            padding: 140px 48px;
+        }
+
+        .contact .section-title {
+            margin-bottom: 24px;
+        }
+
+        .contact-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            color: var(--gray);
+            max-width: 500px;
+            margin: 0 auto 48px;
+            line-height: 1.6;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--white);
+            background: var(--black);
+            padding: 20px 48px;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            border: 1px solid var(--black);
+        }
+
+        .contact-btn:hover {
+            background: transparent;
+            color: var(--black);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--cream-light);
+            padding: 48px;
+            border-top: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .footer-content {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .footer-text {
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--gray);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-social a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            color: var(--black);
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* Keyframes */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes scrollDown {
+            0% { top: -100%; }
+            100% { top: 100%; }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            nav { padding: 20px 32px; }
+            nav.scrolled { padding: 14px 32px; }
+            section { padding: 80px 32px; }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                padding: 0 32px;
+                gap: 40px;
+            }
+
+            .hero-text {
+                order: 2;
+                text-align: center;
+                align-items: center;
+            }
+
+            .hero-image-wrapper {
+                order: 1;
+                height: 50vh;
+                max-height: 500px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .portfolio-grid {
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+
+            nav { padding: 16px 24px; }
+            section { padding: 64px 24px; }
+
+            .hero-content {
+                padding: 0 24px;
+            }
+
+            .hero-name {
+                font-size: 42px;
+            }
+
+            .hero-subtitle {
+                font-size: 11px;
+                letter-spacing: 4px;
+            }
+
+            .hero-image-wrapper {
+                height: 45vh;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .portfolio-item {
+                aspect-ratio: 4/5;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+
+            .stat-number {
+                font-size: 36px;
+            }
+
+            .about-text {
+                font-size: 18px;
+            }
+
+            .contact {
+                padding: 80px 24px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .footer-social {
+                justify-content: center;
+            }
+
+            .lightbox-nav { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 36px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .about-content .section-title {
+                font-size: 28px;
+            }
+        }
+
+        /* Smooth page load */
+        .page-loader {
+            position: fixed;
+            inset: 0;
+            background: var(--cream-light);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-text">AYAN DEY</div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="#" class="nav-logo">AYAN DEY</a>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#home" class="mobile-link">Home</a>
+        <a href="#about" class="mobile-link">About</a>
+        <a href="#portfolio" class="mobile-link">Portfolio</a>
+        <a href="#contact" class="mobile-link">Contact</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-label">Portfolio 2024</div>
+                <h1 class="hero-name">
+                    Ayan
+                    <span>Dey</span>
+                </h1>
+                <p class="hero-subtitle">Model &nbsp;|&nbsp; Actor &nbsp;|&nbsp; Creator</p>
+                <a href="#portfolio" class="hero-cta">
+                    View Portfolio
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="hero-image-wrapper">
+                <img src="https://www.designarena.ai/u/bffbac25-af42-4898-b3a2-712fa2c42a0f" alt="Ayan Dey - Model Portrait" loading="eager">
+                <div class="hero-image-frame"></div>
+            </div>
+        </div>
+        <div class="hero-scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="section-container">
+            <div class="about-grid">
+                <div class="about-image reveal">
+                    <img src="https://www.designarena.ai/u/556999d4-8b19-43cb-9713-58e4cdbc2dae" alt="Ayan Dey - About" loading="lazy">
+                </div>
+                <div class="about-content">
+                    <div class="section-label reveal">About</div>
+                    <h2 class="section-title reveal reveal-delay-1">The Art of <em>Presence</em></h2>
+                    <p class="about-text reveal reveal-delay-2">
+                        Ayan Dey is an aspiring model with a versatile presence and a passion for fashion, beauty, lifestyle, and visual storytelling. With a commanding yet approachable aesthetic, he brings depth and authenticity to every frame — aiming to craft a portfolio that speaks volumes.
+                    </p>
+                    <div class="about-details reveal reveal-delay-3">
+                        <div class="about-detail-item">
+                            <span class="about-detail-label">Height</span>
+                            <span class="about-detail-value">5'9"</span>
+                        </div>
+                        <div class="about-detail-item">
+                            <span class="about-detail-label">Based In</span>
+                            <span class="about-detail-value">India</span>
+                        </div>
+                        <div class="about-detail-item">
+                            <span class="about-detail-label">Focus</span>
+                            <span class="about-detail-value">Fashion & Editorial</span>
+                        </div>
+                    </div>
+                    <a href="https://instagram.com/Phobic.ayan" target="_blank" class="about-instagram reveal reveal-delay-4">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="2" y="2" width="20" height="20" rx="5"/>
+                            <circle cx="12" cy="12" r="5"/>
+                            <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
+                        </svg>
+                        @Phobic.ayan
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item reveal">
+                <div class="stat-number">5'9"</div>
+                <div class="stat-label">Height</div>
+            </div>
+            <div class="stat-item reveal reveal-delay-1">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Portfolio Looks</div>
+            </div>
+            <div class="stat-item reveal reveal-delay-2">
+                <div class="stat-number"></div>
+                <div class="stat-label">Versatility</div>
+            </div>
+            <div class="stat-item reveal reveal-delay-3">
+                <div class="stat-number">2024</div>
+                <div class="stat-label">Active Year</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio" id="portfolio">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-label reveal">Selected Work</div>
+                <h2 class="section-title reveal reveal-delay-1">Portfolio <em>Gallery</em></h2>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-item reveal" data-index="0">
+                    <img src="https://www.designarena.ai/u/bffbac25-af42-4898-b3a2-712fa2c42a0f" alt="Ayan Dey Portfolio 1" loading="lazy">
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-overlay-text">Editorial — 01</span>
+                    </div>
+                </div>
+                <div class="portfolio-item reveal reveal-delay-1" data-index="1">
+                    <img src="https://www.designarena.ai/u/556999d4-8b19-43cb-9713-58e4cdbc2dae" alt="Ayan Dey Portfolio 2" loading="lazy">
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-overlay-text">Portrait — 02</span>
+                    </div>
+                </div>
+                <div class="portfolio-item reveal reveal-delay-2" data-index="2">
+                    <img src="https://www.designarena.ai/u/dbdf4858-16d1-415c-b62c-cb749d1e9538" alt="Ayan Dey Portfolio 3" loading="lazy">
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-overlay-text">Lifestyle — 03</span>
+                    </div>
+                </div>
+                <div class="portfolio-item reveal reveal-delay-3" data-index="3">
+                    <img src="https://www.designarena.ai/u/b092c9c1-7a45-4331-b94c-0b560113d3a1" alt="Ayan Dey Portfolio 4" loading="lazy">
+                    <div class="portfolio-overlay">
+                        <span class="portfolio-overlay-text">Fashion — 04</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="section-container">
+            <div class="section-label reveal">Get In Touch</div>
+            <h2 class="section-title reveal reveal-delay-1">Let's Create <em>Together</em></h2>
+            <p class="contact-text reveal reveal-delay-2">
+                Open to collaborations, editorial shoots, brand partnerships, and creative projects.
+            </p>
+            <a href="https://instagram.com/Phobic.ayan" target="_blank" class="contact-btn reveal reveal-delay-3">
+                Connect on Instagram
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">AYAN DEY</div>
+            <div class="footer-text">© 2024 Ayan Dey. All rights reserved.</div>
+            <div class="footer-social">
+                <a href="https://instagram.com/Phobic.ayan" target="_blank">Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+        </button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                <path d="M15 18l-6-6 6-6"/>
+            </svg>
+        </button>
+        <img src="" alt="Portfolio Full View" id="lightboxImg">
+        <button class="lightbox-nav lightbox-next" id="lightboxNext">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                <path d="M9 18l6-6-6-6"/>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        // Page Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('pageLoader').classList.add('hidden');
+            }, 800);
+        });
+
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        let cursorX = 0, cursorY = 0;
+        let currentX = 0, currentY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            cursorX = e.clientX;
+            cursorY = e.clientY;
+        });
+
+        function animateCursor() {
+            currentX += (cursorX - currentX) * 0.15;
+            currentY += (cursorY - currentY) * 0.15;
+            cursor.style.left = currentX - 10 + 'px';
+            cursor.style.top = currentY - 10 + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Cursor hover effect
+        const hoverElements = document.querySelectorAll('a, button, .portfolio-item, .hamburger');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Navigation scroll effect
+        const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > 80) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            lastScroll = currentScroll;
+        });
+
+        // Hamburger Menu
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Portfolio Lightbox
+        const portfolioImages = [
+            'https://www.designarena.ai/u/bffbac25-af42-4898-b3a2-712fa2c42a0f',
+            'https://www.designarena.ai/u/556999d4-8b19-43cb-9713-58e4cdbc2dae',
+            'https://www.designarena.ai/u/dbdf4858-16d1-415c-b62c-cb749d1e9538',
+            'https://www.designarena.ai/u/b092c9c1-7a45-4331-b94c-0b560113d3a1'
+        ];
+
+        let currentIndex = 0;
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxClose = document.getElementById('lightboxClose');
+        const lightboxPrev = document.getElementById('lightboxPrev');
+        const lightboxNext = document.getElementById('lightboxNext');
+
+        function openLightbox(index) {
+            currentIndex = index;
+            lightboxImg.src = portfolioImages[index];
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function navigateLightbox(direction) {
+            currentIndex = (currentIndex + direction + portfolioImages.length) % portfolioImages.length;
+            lightboxImg.style.opacity = '0';
+            setTimeout(() => {
+                lightboxImg.src = portfolioImages[currentIndex];
+                lightboxImg.style.opacity = '1';
+            }, 200);
+        }
+
+        document.querySelectorAll('.portfolio-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const index = parseInt(item.dataset.index);
+                openLightbox(index);
+            });
+        });
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxPrev.addEventListener('click', () => navigateLightbox(-1));
+        lightboxNext.addEventListener('click', () => navigateLightbox(1));
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') navigateLightbox(-1);
+            if (e.key === 'ArrowRight') navigateLightbox(1);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect on hero image
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('.hero-image-wrapper img');
+            const scrolled = window.pageYOffset;
+            if (scrolled < window.innerHeight && hero) {
+                hero.style.transform = `translateY(${scrolled * 0.08}px) scale(${1 + scrolled * 0.0001})`;
+            }
+        });
+
+        // Add transition to lightbox image for navigation
+        lightboxImg.style.transition = 'opacity 0.3s ease';
+    </script>
+</body>
+</html>
